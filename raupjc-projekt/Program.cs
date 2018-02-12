@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace raupjc_projekt
 {
@@ -20,6 +21,16 @@ namespace raupjc_projekt
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseSerilog((contex, logger) =>
+                {
+                    var connectionString = contex.Configuration.GetConnectionString("DefaultConnection");
+
+                    logger.MinimumLevel.Error().Enrich.FromLogContext()
+                        .WriteTo.MSSqlServer(
+                            connectionString: connectionString,
+                            tableName: "Errors",
+                            autoCreateSqlTable: true);
+                })
                 .Build();
     }
 }
