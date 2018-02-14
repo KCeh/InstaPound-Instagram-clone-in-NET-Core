@@ -7,6 +7,11 @@ namespace raupjc_projekt.Models
 {
     public class MySqlRepository:IMySqlRepository
     {
+        private readonly MyContext _context;
 
+        public MySqlRepository(MyContext context)
+        {
+            _context = context;
+        }
     }
 }

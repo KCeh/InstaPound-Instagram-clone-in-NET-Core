@@ -11,9 +11,11 @@ namespace raupjc_projekt.Models
         public DateTime DateCreated { get; set; }
         public string URL { get; set; }
         public List<Comment> Comments { get; set; }
+        public List<User> usersThatLiked { get; set; }
         public int NumberOfLikes { get; set; }
         public Album Album { get; set; }
         public List<User> UserFavorited { get; set; }
+        public bool featured { get; set; }
 
         public bool HasComment
         {
@@ -28,9 +30,11 @@ namespace raupjc_projekt.Models
             DateCreated=DateTime.UtcNow;
             this.URL = URL;
             Comments=new List<Comment>();
+            usersThatLiked=new List<User>();
             NumberOfLikes = 0;
             this.Album = album;
             UserFavorited=new List<User>();
+            featured = false;
         }
 
         //for EF

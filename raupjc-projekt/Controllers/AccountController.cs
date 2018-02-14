@@ -226,6 +226,7 @@ namespace raupjc_projekt.Controllers
                 {
                     var myUser = new User(user.Id);
                     //TODO
+                    //dodat povezivanje contexta
                     // ...context add user + context save changes...
 
                     _logger.LogInformation("User created a new account with password.");
