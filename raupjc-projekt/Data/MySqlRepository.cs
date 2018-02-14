@@ -71,6 +71,7 @@ namespace raupjc_projekt.Models
             List<Photo> photos = GetPhotos(albumId);
             Photo photo=new Photo(url,album);
             photos.Add(photo);
+            _context.Photos.Add(photo);
             _context.Entry(album).State = EntityState.Modified;//ok?? ili album ili photos
             await _context.SaveChangesAsync();
         }
@@ -88,9 +89,9 @@ namespace raupjc_projekt.Models
             return true;
         }
 
-        public List<Album> GetAllAlbums(string userId)
+        public async Task<List<Album>> GetAllAlbumsAsync(string userId)
         {
-            return _context.Albums.Where(a=>!a.Owner.Id.Equals(userId)).ToList();
+            return await _context.Albums.Where(a=>!a.Owner.Id.Equals(userId)).ToListAsync();
         }
 
         public async Task FavoritePhotoAsync(string userId, Guid photoId)
@@ -140,34 +141,60 @@ namespace raupjc_projekt.Models
             return user.Subscribed;
         }
 
-        public Task SubscribeToUserAsync(string subscriberId, string ownerId)
+        public async Task SubscribeToUserAsync(string subscriberId, string ownerId)
         {
-            throw new NotImplementedException();
+            User subscriber = GetUser(subscriberId);
+            User owner = GetUser(ownerId);
+            subscriber.Subscribed.Add(owner);
+            owner.Subscribers.Add(subscriber);
+            _context.Entry(subscriber).State = EntityState.Modified;
+            _context.Entry(owner).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
-        public Task GetCommentsAsync(Guid photoId)
+        public List<Comment> GetComments(Guid photoId)
         {
-            throw new NotImplementedException();
+            Photo photo = _context.Photos.Find(photoId);
+            return photo.Comments;
         }
 
-        public Task PostCommentAsync(Guid photoId, string commentatorId, string text)
+        public async Task PostCommentAsync(Guid photoId, string commentatorId, string text)
         {
-            throw new NotImplementedException();
+            Photo photo = _context.Photos.Find(photoId);
+            Comment comment = new Comment(commentatorId, text, photo);
+            photo.Comments.Add(comment);
+            _context.Comments.Add(comment);
+            _context.Entry(photo).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<Photo>> GetFeaturedPhotosAsync()
+        public async Task<List<Photo>> GetFeaturedPhotosAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Photos.Where(p => p.featured).ToListAsync();
         }
 
-        public Task<List<Photo>> GetPhotosFromSubscribedUsersAsync(string userId)
+        public List<Photo> GetPhotosFromSubscribedUsers(string userId)
         {
-            throw new NotImplementedException();
+            User user = GetUser(userId);
+            List<Photo> photos = new List<Photo>();
+            foreach (User u in user.Subscribed)
+            {
+                foreach (Album a in u.Albums)
+                {
+                    photos.AddRange(a.Photos);
+                }
+            }
+            List<Photo> orderByDescending = photos.OrderByDescending(p => p.DateCreated).ToList();
+            return orderByDescending;
         }
 
-        public Task FeaturePhotoAsync(Guid photoId)
+        public async Task FeaturePhotoAsync(Guid photoId)
         {
-            throw new NotImplementedException();
+            //samo admin smije
+            Photo photo = _context.Photos.Find(photoId);
+            photo.featured = true;
+            _context.Entry(photo).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 

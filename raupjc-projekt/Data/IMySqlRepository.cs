@@ -18,7 +18,7 @@ namespace raupjc_projekt.Models
         Task AddPhotoToAlbumAsync(Guid albumId, string ownerId, string url);
         Task<bool> RemovePhotoFromAlbumAsync(Guid albumId, Guid photoId, string ownerId);
 
-        List<Album> GetAllAlbums(string userId);
+        Task<List<Album>> GetAllAlbumsAsync(string userId);
         Task FavoritePhotoAsync(string userId, Guid photoId);
         Task LikePhotoAsync(string userId, Guid photoId);//provjeri za bazu ako je ok
 
@@ -27,11 +27,11 @@ namespace raupjc_projekt.Models
         List<User> GetSubscribedUsers(string userId);
         Task SubscribeToUserAsync(string subscriberId, string ownerId);
 
-        Task GetCommentsAsync(Guid photoId);
+        List<Comment> GetComments(Guid photoId);
         Task PostCommentAsync(Guid photoId, string commentatorId, string text);
 
         Task<List<Photo>> GetFeaturedPhotosAsync();
-        Task<List<Photo>> GetPhotosFromSubscribedUsersAsync(string userId);
+        List<Photo> GetPhotosFromSubscribedUsers(string userId);
 
         Task FeaturePhotoAsync(Guid photoId);
 
