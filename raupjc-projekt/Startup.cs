@@ -43,6 +43,8 @@ namespace raupjc_projekt
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            //todo dodat
+
             services.AddMvc();
         }
 

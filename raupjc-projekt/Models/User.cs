@@ -23,6 +23,27 @@ namespace raupjc_projekt.Models
             FavotirePhotos=new List<Photo>();
         }
 
+        //for EF
+        public User()
+        {
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is User && obj != null)
+            {
+                var item = obj as User;
+                return Id == item.Id;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
         // TODO
         // public string ProfilePictureUrl { get; set; }
     }

@@ -9,17 +9,38 @@ namespace raupjc_projekt.Models
     {
         public Guid Id { get; set; }
         public DateTime DateCreated { get; set; }
-        public string OwnerId { get; set; }
+        public User Owner { get; set; }
         public string Name { get; set; }
         public List<Photo> Photos {get; set; }
 
-        public Album(string OwnerId, string Name)
+        public Album(User Owner, string Name)
         {
             Id=Guid.NewGuid();
             DateCreated=DateTime.UtcNow;
-            this.OwnerId = OwnerId;
+            this.Owner = Owner;
             this.Name = Name;
             Photos=new List<Photo>();
+        }
+
+        //for EF
+        public Album()
+        {
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Album && obj != null)
+            {
+                var item = obj as Album;
+                return Id == item.Id;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }
