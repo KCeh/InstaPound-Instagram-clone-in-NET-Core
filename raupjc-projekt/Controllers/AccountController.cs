@@ -224,12 +224,7 @@ namespace raupjc_projekt.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var myUser = new User()
-                    {
-                        Id = user.Id
-                        // Avatar?
-                        // Ime prezime?
-                    };
+                    var myUser = new User(user.Id);
                     //TODO
                     // ...context add user + context save changes...
 

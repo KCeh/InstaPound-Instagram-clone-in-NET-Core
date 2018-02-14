@@ -15,6 +15,14 @@ namespace raupjc_projekt.Models
 
         public List<Photo> FavotirePhotos { get; set; }
 
+        public User(string Id)
+        {
+            this.Id = Id;
+            Albums=new List<Album>();
+            Subscribed=new List<User>();
+            FavotirePhotos=new List<Photo>();
+        }
+
         // TODO
         // public string ProfilePictureUrl { get; set; }
     }
