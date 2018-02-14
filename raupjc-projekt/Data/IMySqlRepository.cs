@@ -7,22 +7,24 @@ namespace raupjc_projekt.Models
 {
     public interface IMySqlRepository
     {
-        Task<List<Album>> GetMyAlbumsAsync(string userId);
+        User GetUser(string ownerId);
+        List<Album> GetMyAlbumsAsync(string userId);
         Task AddMyAlbumAsync(string ownerId, string name);
         Task<bool> RemoveMyAlbumAsync(string ownerId, Guid id);
-        Task<bool> UpdateMyAlbumAsync(string ownerId, Guid id);
+        Task<bool> UpdateMyAlbumAsync(string ownerId, Album album);
+        Album GeAlbum(Guid albumId);
 
-        Task<List<Photo>> GetPhotosAsync(Guid albumId);
+        List<Photo> GetPhotos(Guid albumId);
         Task AddPhotoToAlbumAsync(Guid albumId, string ownerId, string url);
         Task<bool> RemovePhotoFromAlbumAsync(Guid albumId, Guid photoId, string ownerId);
 
-        Task GetAllAlbumsAsync();
+        List<Album> GetAllAlbums(string userId);
         Task FavoritePhotoAsync(string userId, Guid photoId);
-        Task LikePhotoAsync(string guidPhotoId);//provjeri za bazu ako je ok
+        Task LikePhotoAsync(string userId, Guid photoId);//provjeri za bazu ako je ok
 
-        Task<List<Photo>> GetFavoritePhotosAsync(string userId);
+        List<Photo> GetFavoritePhotos(string userId);
 
-        Task<List<User>> GetSubscribedUsersAsync(string userId);
+        List<User> GetSubscribedUsers(string userId);
         Task SubscribeToUserAsync(string subscriberId, string ownerId);
 
         Task GetCommentsAsync(Guid photoId);

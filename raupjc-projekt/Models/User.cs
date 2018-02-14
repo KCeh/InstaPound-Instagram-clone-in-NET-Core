@@ -12,15 +12,18 @@ namespace raupjc_projekt.Models
         public List<Album> Albums { get; set; }
 
         public List<User> Subscribed { get; set; }
-
+        public List<User> Subscribers { get; set; }
         public List<Photo> FavotirePhotos { get; set; }
+        public List<Photo> LikedPhotos { get; set; }
 
         public User(string Id)
         {
             this.Id = Id;
             Albums=new List<Album>();
             Subscribed=new List<User>();
+            Subscribers=new List<User>();
             FavotirePhotos=new List<Photo>();
+            LikedPhotos=new List<Photo>();
         }
 
         //for EF

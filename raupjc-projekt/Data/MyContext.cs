@@ -44,7 +44,7 @@ namespace raupjc_projekt.Models
             modelBuilder.Entity<User>().HasMany(u => u.Albums).WithRequired(a => a.Owner);
             modelBuilder.Entity<Album>().HasMany(u => u.Photos).WithRequired(a => a.Album);
             modelBuilder.Entity<Photo>().HasMany(u => u.Comments).WithRequired(a =>a.Photo);
-            modelBuilder.Entity<User>().HasMany(u => u.FavotirePhotos).WithMany(a => a.UserFavorited);//potrebno?
+           // modelBuilder.Entity<User>().HasMany(u => u.FavotirePhotos).WithMany(a => a.UserFavorited);//potrebno?
             modelBuilder.Entity<User>().HasMany(u => u.Subscribed).WithMany(u => u.Subscribers);
         }
     }

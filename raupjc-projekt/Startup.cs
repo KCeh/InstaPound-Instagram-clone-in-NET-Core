@@ -43,7 +43,8 @@ namespace raupjc_projekt
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            //todo dodat
+            services.AddTransient<IMySqlRepository, MySqlRepository>();
+            services.AddScoped(t => new MyContext(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
         }
