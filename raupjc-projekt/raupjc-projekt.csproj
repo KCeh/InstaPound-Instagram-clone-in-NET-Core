@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-raupjc_projekt-EE3A94F0-1759-4DAB-9F41-1C2ACE94B216</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\IMySqlRepository.cs" />
+    <Compile Remove="Models\MyContext.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.2.0" />
@@ -32,6 +37,11 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\thumbs\" />
+    <Folder Include="wwwroot\uploads\thumbs\" />
   </ItemGroup>
 
 </Project>
