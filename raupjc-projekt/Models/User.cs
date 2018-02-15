@@ -26,7 +26,6 @@ namespace raupjc_projekt.Models
             LikedPhotos=new List<Photo>();
         }
 
-        //for EF
         public User()
         {
 

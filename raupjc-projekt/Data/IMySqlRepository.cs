@@ -7,9 +7,10 @@ namespace raupjc_projekt.Models
 {
     public interface IMySqlRepository
     {
+        Task AddUserAsync(User user);
         User GetUser(string ownerId);
-        List<Album> GetMyAlbumsAsync(string userId);
-        Task AddMyAlbumAsync(string ownerId, string name);
+        Task<List<Album>> GetMyAlbumsAsync(string userId);
+        Task AddMyAlbumAsync(Album album);
         Task<bool> RemoveMyAlbumAsync(string ownerId, Guid id);
         Task<bool> UpdateMyAlbumAsync(string ownerId, Album album);
         Album GeAlbum(Guid albumId);

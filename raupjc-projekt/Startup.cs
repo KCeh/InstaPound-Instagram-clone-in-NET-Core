@@ -50,7 +50,7 @@ namespace raupjc_projekt
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider spv)
         {
             if (env.IsDevelopment())
             {
@@ -67,6 +67,9 @@ namespace raupjc_projekt
 
             app.UseAuthentication();
 
+           // CreateRoles(spv);//await?
+            //todo popravi
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -81,6 +84,7 @@ namespace raupjc_projekt
             //initializing custom roles 
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var _repository = serviceProvider.GetRequiredService<IMySqlRepository>();
             string[] roleNames = { "Admin", "User" };
             IdentityResult roleResult;
 
@@ -112,6 +116,8 @@ namespace raupjc_projekt
                 var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
                 if (createPowerUser.Succeeded)
                 {
+                    var myUser = new User(poweruser.Id);
+                    await _repository.AddUserAsync(myUser);
                     //here we tie the new user to the role
                     await UserManager.AddToRoleAsync(poweruser, "Admin");
 

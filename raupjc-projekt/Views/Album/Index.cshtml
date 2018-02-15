@@ -1,8 +1,27 @@
-﻿@model dynamic
-
+﻿@model raupjc_projekt.Models.AlbumViewModels.IndexViewModel
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
 <h2>My albums</h2>
+
+<p>
+    <a asp-controller="Album" asp-action="Add"><b>Add new album</b></a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<div>
+    @foreach (var album in Model.Albums)
+    {
+        //todo
+        //Html.RenderPartial("~/Views/Todo/PartialView.cshtml", todoItem);
+
+        <img src="@Url.Content(album.ThumbnailImage)" alt="Thumbnail" height="150" width="150" />
+        <br />
+        <b>@album.Name</b>
+        <br/>
+        <t>Created on: @album.DateCreated</t>
+        <br><br/>
+
+    }
+</div>

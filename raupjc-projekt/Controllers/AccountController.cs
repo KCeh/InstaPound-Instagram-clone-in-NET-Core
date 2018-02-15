@@ -22,6 +22,7 @@ namespace raupjc_projekt.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IMySqlRepository _repository;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
@@ -29,12 +30,14 @@ namespace raupjc_projekt.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IMySqlRepository repository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _repository = repository;
         }
 
         [TempData]
@@ -225,9 +228,7 @@ namespace raupjc_projekt.Controllers
                 if (result.Succeeded)
                 {
                     var myUser = new User(user.Id);
-                    //TODO
-                    //dodat povezivanje contexta
-                    // ...context add user + context save changes...
+                    await _repository.AddUserAsync(myUser);
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -322,6 +323,8 @@ namespace raupjc_projekt.Controllers
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        var myUser = new User(user.Id);
+                        await _repository.AddUserAsync(myUser);
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);
