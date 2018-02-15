@@ -15,6 +15,8 @@ namespace raupjc_projekt.Models.AlbumViewModels
 
         public string ThumbnailImage;
 
+        public List<Photo> Photos { get; set; }
+
         public AlbumViewModel() { }
 
         public AlbumViewModel(Guid id, DateTime dateCreated, User owner, string name)
@@ -24,6 +26,7 @@ namespace raupjc_projekt.Models.AlbumViewModels
             Owner = owner;
             Name = name;
             ThumbnailImage = "~/images/placeholder.svg";
+            Photos=new List<Photo>();
         }
     }
 }

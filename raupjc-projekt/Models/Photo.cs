@@ -10,6 +10,7 @@ namespace raupjc_projekt.Models
         public Guid Id { get; set; }
         public DateTime DateCreated { get; set; }
         public string URL { get; set; }
+        public string ThumbnailImage { get; set; }
         public List<Comment> Comments { get; set; }
         public List<User> UsersThatLiked { get; set; }
         public int NumberOfLikes { get; set; }

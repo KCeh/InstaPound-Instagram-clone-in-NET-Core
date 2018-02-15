@@ -1,0 +1,34 @@
+﻿@model raupjc_projekt.Models.AlbumViewModels.AlbumViewModel
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<div class="w3-container">
+    <h1>@Model.Name</h1>
+</div>
+
+    @foreach (Photo photo in Model.Photos)
+    {
+        int i = 0;
+        if (i % 3 == 0)
+        {
+            <div class="w3-row-padding w3-margin-top">
+        }
+        <div class="w3-third">
+            <div class="w3-card">
+                <img src="@Url.Content(photo.ThumbnailImage)" style="width:100%">
+                <div class="w3-container">
+                <h6>Like  </h6> <h6>Favorite</h6>
+            </div>
+             </div>
+        </div>
+        if(i%3==2){
+                </div>
+        }
+}   
+
+</body>
+</html>

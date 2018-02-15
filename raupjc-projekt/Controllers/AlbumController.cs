@@ -92,6 +92,12 @@ namespace raupjc_projekt.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult ShowAlbumPhotos(AlbumViewModel album)
+        {
+
+            return View("Album", album);
+        }
+
 
     }
 
