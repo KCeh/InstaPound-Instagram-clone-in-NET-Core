@@ -1,0 +1,23 @@
+﻿@model raupjc_projekt.Models.AlbumViewModels.RenameAlbumViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rename album</title>
+</head>
+<body>
+    <h3>Rename album</h3>
+    <div>
+        <form asp-action="Rename" method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input class="form-control" asp-for="Name" placeholder="Old name:@Model.Name (min. 3 letters for new name)" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <br />
+
+            <input class="btn btn-primary" type="submit" value="Submit">
+            <a class="btn btn-primary" href="/Album/Index" role="button">Back</a>
+        </form>
+    </div>
+</body>
+</html>

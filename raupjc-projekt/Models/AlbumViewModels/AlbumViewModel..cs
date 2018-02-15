@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace raupjc_projekt.Models.AlbumViewModels
         public DateTime DateCreated { get; set; }
         public User Owner { get; set; }
         public string Name { get; set; }
+
         public string ThumbnailImage;
 
         public AlbumViewModel() { }

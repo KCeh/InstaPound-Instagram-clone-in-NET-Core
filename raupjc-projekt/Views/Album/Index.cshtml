@@ -16,11 +16,14 @@
         //todo
         //Html.RenderPartial("~/Views/Todo/PartialView.cshtml", todoItem);
 
-        <img src="@Url.Content(album.ThumbnailImage)" alt="Thumbnail" height="150" width="150" />
+        <img src="@Url.Content(album.ThumbnailImage)" alt="Thumbnail" height="100" width="150" />
         <br />
         <b>@album.Name</b>
         <br/>
         <t>Created on: @album.DateCreated</t>
+        <br/>
+        <a asp-controller="Album" asp-action="Rename" asp-route-id="@album.Id"><b>Rename album</b></a>
+        <a asp-controller="Album" asp-action="Delete" asp-route-id="@album.Id"><b>Delete album</b></a>
         <br><br/>
 
     }

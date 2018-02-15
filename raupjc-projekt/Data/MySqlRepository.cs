@@ -34,52 +34,34 @@ namespace raupjc_projekt.Models
 
         public async Task AddMyAlbumAsync(Album album)
         {
-            try
-            {
-                _context.Albums.Add(album);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                throw;
-            }
-            
+            _context.Albums.Add(album);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> RemoveMyAlbumAsync(string ownerId, Guid id)
+        public async Task<bool> RemoveMyAlbumAsync(User owner, Guid id)
         {
             var toRemove = _context.Albums.Find(id);
-            if (!toRemove.Owner.Id.Equals(ownerId))
+            if (!toRemove.Owner.Equals(owner))
                 throw new AccessDeniedException();
             _context.Albums.Remove(toRemove);
             await _context.SaveChangesAsync();
             return true;
         }
 
-        public async Task<bool> UpdateMyAlbumAsync(string ownerId, Album album)
+        public async Task<bool> UpdateMyAlbumAsync(User owner, Album album)
         {
             if (album != null)
             {
-                if (!album.Owner.Id.Equals(ownerId))
+                if (!album.Owner.Equals(owner))
                     throw new AccessDeniedException();
                 _context.Entry(album).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return true;
             }
-            return false; //pogledati jos
+            return false;
         }
 
-        public Album GeAlbum(Guid albumId)
+        public Album GetAlbum(Guid albumId)
         {
             return _context.Albums.Find(albumId);
         }
@@ -91,7 +73,7 @@ namespace raupjc_projekt.Models
 
         public async Task AddPhotoToAlbumAsync(Guid albumId, string ownerId, string url)
         {
-            Album album = GeAlbum(albumId);
+            Album album = GetAlbum(albumId);
             List<Photo> photos = GetPhotos(albumId);
             Photo photo=new Photo(url,album);
             photos.Add(photo);
@@ -102,7 +84,7 @@ namespace raupjc_projekt.Models
 
         public async Task<bool> RemovePhotoFromAlbumAsync(Guid albumId, Guid photoId, string ownerId)
         {
-            Album album = GeAlbum(albumId);
+            Album album = GetAlbum(albumId);
             Photo photo = _context.Photos.Find(photoId);
             if (album == null || photo == null)
                 return false;

@@ -11,9 +11,9 @@ namespace raupjc_projekt.Models
         User GetUser(string ownerId);
         Task<List<Album>> GetMyAlbumsAsync(string userId);
         Task AddMyAlbumAsync(Album album);
-        Task<bool> RemoveMyAlbumAsync(string ownerId, Guid id);
-        Task<bool> UpdateMyAlbumAsync(string ownerId, Album album);
-        Album GeAlbum(Guid albumId);
+        Task<bool> RemoveMyAlbumAsync(User owner, Guid id);
+        Task<bool> UpdateMyAlbumAsync(User owner, Album album);
+        Album GetAlbum(Guid albumId);
 
         List<Photo> GetPhotos(Guid albumId);
         Task AddPhotoToAlbumAsync(Guid albumId, string ownerId, string url);

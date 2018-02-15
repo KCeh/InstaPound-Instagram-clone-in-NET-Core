@@ -61,6 +61,38 @@ namespace raupjc_projekt.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            User myUser = _repository.GetUser(user.Id);
+            await _repository.RemoveMyAlbumAsync(myUser, id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Rename(Guid id)
+        {
+            Album album = _repository.GetAlbum(id);
+            RenameAlbumViewModel model=new RenameAlbumViewModel(id,album.Name);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Rename(RenameAlbumViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Rename", model);
+            }
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            User myUser = _repository.GetUser(user.Id);
+            Album album = _repository.GetAlbum(model.Id);
+            album.Name = model.Name;
+            await _repository.UpdateMyAlbumAsync(myUser,album);
+            return RedirectToAction("Index");
+        }
+
 
     }
+
 }
