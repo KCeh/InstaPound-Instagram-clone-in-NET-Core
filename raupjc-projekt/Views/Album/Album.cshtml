@@ -21,6 +21,8 @@
             <div class="w3-container">
                 <p>Like Favorite Comment</p>
                 <b>Number of likes : @photo.NumberOfLikes</b>
+                <br/>
+                <a asp-controller="Album" asp-action="DeletePhoto" asp-route-id="@photo.Id" asp-route-albumId="@Model.Id"><b>Delete photo</b></a>
             </div>
             &nbsp;
         </div>

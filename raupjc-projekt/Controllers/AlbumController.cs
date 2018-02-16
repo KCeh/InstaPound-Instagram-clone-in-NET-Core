@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Net.Http.Headers;
 using raupjc_projekt.Models;
 using raupjc_projekt.Models.AlbumViewModels;
@@ -80,6 +81,25 @@ namespace raupjc_projekt.Controllers
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             User myUser = _repository.GetUser(user.Id);
+            //todo brisenje
+            /*
+            List<Photo> photosToDelete =await _repository.GetPhotosAsync(id);
+            List<string> paths = new List<string>();
+            foreach (Photo photo in photosToDelete)
+            {
+                Path.Combine(_environment.WebRootPath, "uploads")
+                paths.Add(photo.ThumbnailImage);
+                paths.Add(photo.URL);
+            }
+
+            foreach (String path in paths)
+            {
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+            }*/
+
             await _repository.RemoveMyAlbumAsync(myUser, id);
             return RedirectToAction("Index");
         }
@@ -172,10 +192,39 @@ namespace raupjc_projekt.Controllers
                         await _repository.AddPhotoToAlbumAsync(model.Id, user.Id, PathDB, thumbnailDB);
                     }
                 }
-                RedirectToAction("ShowAlbumPhotos", model.Id); //redirect ne funkcionira kao zamisljeno
+                RedirectToAction("ShowAlbumPhotos", new RouteValueDictionary(
+                    new { controller = "Album", action = "ShowAlbumPhotos", id = model.Id }));//popraviti
             }
             return View("AddPhoto",model);
 
+        }
+
+        public async Task<IActionResult> DeletePhoto(Guid id, Guid albumId)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            User myUser = _repository.GetUser(user.Id);
+            //todo brisenje
+            /*
+            List<Photo> photosToDelete =await _repository.GetPhotosAsync(id);
+            List<string> paths = new List<string>();
+            foreach (Photo photo in photosToDelete)
+            {
+                Path.Combine(_environment.WebRootPath, "uploads")
+                paths.Add(photo.ThumbnailImage);
+                paths.Add(photo.URL);
+            }
+
+            foreach (String path in paths)
+            {
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+            }*/
+
+            await _repository.RemovePhotoFromAlbumAsync(albumId, id, user.Id);
+            return RedirectToAction("ShowAlbumPhotos", new RouteValueDictionary(
+                new { controller = "Album", action = "ShowAlbumPhotos", id = albumId }));
         }
 
         void CreateThumbnail(int ThumbnailMax, string OriginalImagePath, string ThumbnailImagePath)

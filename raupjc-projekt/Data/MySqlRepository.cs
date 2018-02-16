@@ -79,7 +79,7 @@ namespace raupjc_projekt.Models
             Photo photo=new Photo(url,album, thumbnail);
             photos.Add(photo);
             _context.Photos.Add(photo);
-            _context.Entry(album).State = EntityState.Modified;//ok?? ili album ili photos
+            _context.Entry(album).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
@@ -89,8 +89,9 @@ namespace raupjc_projekt.Models
             Photo photo = _context.Photos.Find(photoId);
             if (album == null || photo == null)
                 return false;
+            List<Photo> photos = await GetPhotosAsync(albumId);
+            photos.Remove(photo);
             _context.Photos.Remove(photo);
-            album.Photos.Remove(photo);//radi???
             _context.Entry(album).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return true;
