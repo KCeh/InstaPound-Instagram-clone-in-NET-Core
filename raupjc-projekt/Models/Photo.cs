@@ -20,12 +20,16 @@ namespace raupjc_projekt.Models
 
         public bool HasComment
         {
-            get { return !Comments.Any(); }
+            get
+            {
+                if (Comments == null) return false;
+                return !Comments.Any();
+            }
             set { }
         }
 
         //TODO prilagoditi za kontroler
-        public Photo(string URL, Album album)
+        public Photo(string URL, Album album, string thumbnail)
         {
             Id = Guid.NewGuid();
             DateCreated=DateTime.UtcNow;
@@ -36,6 +40,7 @@ namespace raupjc_projekt.Models
             this.Album = album;
            // UserFavorited=new List<User>();
             featured = false;
+            ThumbnailImage = thumbnail;
         }
 
         //for EF

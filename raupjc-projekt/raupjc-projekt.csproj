@@ -44,4 +44,8 @@
     <Folder Include="wwwroot\uploads\thumbs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
 </Project>

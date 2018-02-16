@@ -63,19 +63,20 @@ namespace raupjc_projekt.Models
 
         public Album GetAlbum(Guid albumId)
         {
-            return _context.Albums.Find(albumId);
+
+            return _context.Albums.First(a => a.Id.Equals(albumId));
         }
 
-        public List<Photo> GetPhotos(Guid albumId)
+        public async Task<List<Photo>> GetPhotosAsync(Guid albumId)
         {
-            return _context.Albums.Find(albumId).Photos;
+            return await _context.Photos.Where(p => p.Album.Id.Equals(albumId)).ToListAsync();
         }
 
-        public async Task AddPhotoToAlbumAsync(Guid albumId, string ownerId, string url)
+        public async Task AddPhotoToAlbumAsync(Guid albumId, string ownerId, string url, string thumbnail)
         {
             Album album = GetAlbum(albumId);
-            List<Photo> photos = GetPhotos(albumId);
-            Photo photo=new Photo(url,album);
+            List<Photo> photos = await GetPhotosAsync(albumId);
+            Photo photo=new Photo(url,album, thumbnail);
             photos.Add(photo);
             _context.Photos.Add(photo);
             _context.Entry(album).State = EntityState.Modified;//ok?? ili album ili photos
