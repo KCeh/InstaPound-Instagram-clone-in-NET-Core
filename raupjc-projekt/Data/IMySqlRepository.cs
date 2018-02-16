@@ -9,11 +9,12 @@ namespace raupjc_projekt.Models
     {
         Task AddUserAsync(User user);
         User GetUser(string ownerId);
+        Task<User> GetOwnerAsync(Guid albumId);
         Task<List<Album>> GetMyAlbumsAsync(string userId);
         Task AddMyAlbumAsync(Album album);
         Task<bool> RemoveMyAlbumAsync(User owner, Guid id);
         Task<bool> UpdateMyAlbumAsync(User owner, Album album);
-        Album GetAlbum(Guid albumId);
+        Task<Album> GetAlbumAsync(Guid albumId);
 
         Task<List<Photo>> GetPhotosAsync(Guid albumId);
         Task AddPhotoToAlbumAsync(Guid albumId, string ownerId, string url, string thumbnail);
@@ -37,5 +38,6 @@ namespace raupjc_projekt.Models
         Task FeaturePhotoAsync(Guid photoId);
 
 
+        
     }
 }

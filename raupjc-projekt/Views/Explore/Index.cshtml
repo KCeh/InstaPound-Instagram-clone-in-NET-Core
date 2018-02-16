@@ -1,8 +1,27 @@
-﻿@model dynamic
-
+﻿@model raupjc_projekt.Models.AlbumViewModels.IndexViewModel
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
-<h2>Explore other users content</h2>
+<h2>Explore other users albums</h2>
+
+<div>
+    @foreach (var album in Model.Albums)
+    {
+        //todo
+        //Html.RenderPartial("~/Views/Todo/PartialView.cshtml", todoItem);
+
+        <a href="@Url.Action("ShowAlbumPhotos","Album",@album)">
+            <img src="@Url.Content(album.ThumbnailImage)" alt="Thumbnail" height="100" width="150" />
+        </a>
+        <br />
+        <b>@album.Name</b>
+        <br />
+        <t>Created on: @album.DateCreated</t>
+        <br />
+        <t>By: @album.Owner</t>
+        <br><br />
+
+    }
+</div>

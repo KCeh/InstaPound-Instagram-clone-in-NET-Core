@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\ExploreViewModels\AlbumViewModel.cs" />
+    <Compile Remove="Models\ExploreViewModels\IndexViewModel.cs" />
     <Compile Remove="Models\IMySqlRepository.cs" />
     <Compile Remove="Models\MyContext.cs" />
   </ItemGroup>
@@ -40,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\ExploreViewModels\" />
     <Folder Include="wwwroot\images\thumbs\" />
     <Folder Include="wwwroot\uploads\thumbs\" />
   </ItemGroup>

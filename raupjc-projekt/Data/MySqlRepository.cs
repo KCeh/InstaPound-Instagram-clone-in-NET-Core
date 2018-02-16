@@ -27,6 +27,12 @@ namespace raupjc_projekt.Models
             return _context.Users.Find(userId);
         }
 
+        public async Task<User> GetOwnerAsync(Guid albumId)
+        {
+            Album album =await GetAlbumAsync(albumId);
+            return album.Owner;
+        }
+
         public Task<List<Album>> GetMyAlbumsAsync(string userId)
         {
             return _context.Albums.Where(a => a.Owner.Id.Equals(userId)).ToListAsync(); //promijeniti i za ostalo
@@ -61,10 +67,10 @@ namespace raupjc_projekt.Models
             return false;
         }
 
-        public Album GetAlbum(Guid albumId)
+        public async Task<Album> GetAlbumAsync(Guid albumId)
         {
 
-            return _context.Albums.First(a => a.Id.Equals(albumId));
+            return await _context.Albums.Where(a => a.Id.Equals(albumId)).Include(a=>a.Owner).FirstOrDefaultAsync();
         }
 
         public async Task<List<Photo>> GetPhotosAsync(Guid albumId)
@@ -74,7 +80,7 @@ namespace raupjc_projekt.Models
 
         public async Task AddPhotoToAlbumAsync(Guid albumId, string ownerId, string url, string thumbnail)
         {
-            Album album = GetAlbum(albumId);
+            Album album = await GetAlbumAsync(albumId);
             List<Photo> photos = await GetPhotosAsync(albumId);
             Photo photo=new Photo(url,album, thumbnail);
             photos.Add(photo);
@@ -85,7 +91,7 @@ namespace raupjc_projekt.Models
 
         public async Task<bool> RemovePhotoFromAlbumAsync(Guid albumId, Guid photoId, string ownerId)
         {
-            Album album = GetAlbum(albumId);
+            Album album = await GetAlbumAsync(albumId);
             Photo photo = _context.Photos.Find(photoId);
             if (album == null || photo == null)
                 return false;
@@ -99,7 +105,7 @@ namespace raupjc_projekt.Models
 
         public async Task<List<Album>> GetAllAlbumsAsync(string userId)
         {
-            return await _context.Albums.Where(a=>!a.Owner.Id.Equals(userId)).ToListAsync();
+            return await _context.Albums.Where(a=>!a.Owner.Id.Equals(userId)).Include(a=>a.Owner).ToListAsync();
         }
 
         public async Task FavoritePhotoAsync(string userId, Guid photoId)

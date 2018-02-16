@@ -105,9 +105,9 @@ namespace raupjc_projekt.Controllers
         }
 
         [HttpGet]
-        public IActionResult Rename(Guid id)
+        public async Task<IActionResult> Rename(Guid id)
         {
-            Album album = _repository.GetAlbum(id);
+            Album album = await _repository.GetAlbumAsync(id);
             RenameAlbumViewModel model=new RenameAlbumViewModel(id,album.Name);
             return View(model);
         }
@@ -121,7 +121,7 @@ namespace raupjc_projekt.Controllers
             }
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             User myUser = _repository.GetUser(user.Id);
-            Album album = _repository.GetAlbum(model.Id);
+            Album album = await _repository.GetAlbumAsync(model.Id);
             album.Name = model.Name;
             await _repository.UpdateMyAlbumAsync(myUser,album);
             return RedirectToAction("Index");
@@ -130,16 +130,16 @@ namespace raupjc_projekt.Controllers
         public async Task<IActionResult> ShowAlbumPhotos(Guid id)
         {
 
-            Album album = _repository.GetAlbum(id);
+            Album album = await _repository.GetAlbumAsync(id);
             AlbumViewModel model = new AlbumViewModel(album.Id, album.DateCreated, album.Owner, album.Name);
             model.Photos = await _repository.GetPhotosAsync(id);
             return View("Album", model);
         }
 
         [HttpGet]
-        public IActionResult AddPhoto(Guid id)
+        public async Task<IActionResult> AddPhoto(Guid id)
         {
-            Album album = _repository.GetAlbum(id);
+            Album album = await _repository.GetAlbumAsync(id);
             AlbumViewModel model=new AlbumViewModel(album.Id, album.DateCreated, album.Owner, album.Name);
             return View("AddPhoto",model);
         }
@@ -226,6 +226,8 @@ namespace raupjc_projekt.Controllers
             return RedirectToAction("ShowAlbumPhotos", new RouteValueDictionary(
                 new { controller = "Album", action = "ShowAlbumPhotos", id = albumId }));
         }
+
+
 
         void CreateThumbnail(int ThumbnailMax, string OriginalImagePath, string ThumbnailImagePath)
         {
