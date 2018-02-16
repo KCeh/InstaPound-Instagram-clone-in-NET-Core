@@ -12,7 +12,7 @@
         //todo
         //Html.RenderPartial("~/Views/Todo/PartialView.cshtml", todoItem);
 
-        <a href="@Url.Action("ShowAlbumPhotos","Album",@album)">
+        <a href="@Url.Action("ShowAlbumPhotos","Explore",@album)">
             <img src="@Url.Content(album.ThumbnailImage)" alt="Thumbnail" height="100" width="150" />
         </a>
         <br />
@@ -20,7 +20,7 @@
         <br />
         <t>Created on: @album.DateCreated</t>
         <br />
-        <t>By: @album.Owner</t>
+        <t>Subscribe to: @album.Owner.Username</t>
         <br><br />
 
     }

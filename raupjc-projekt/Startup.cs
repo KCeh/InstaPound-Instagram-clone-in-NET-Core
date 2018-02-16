@@ -116,7 +116,7 @@ namespace raupjc_projekt
                 var createPowerUser = await UserManager.CreateAsync(poweruser, adminPassword);
                 if (createPowerUser.Succeeded)
                 {
-                    var myUser = new User(poweruser.Id);
+                    var myUser = new User(poweruser.Id, poweruser.UserName);
                     await _repository.AddUserAsync(myUser);
                     //here we tie the new user to the role
                     await UserManager.AddToRoleAsync(poweruser, "Admin");

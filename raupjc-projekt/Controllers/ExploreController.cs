@@ -28,8 +28,6 @@ namespace raupjc_projekt.Controllers
             Models.AlbumViewModels.IndexViewModel model = new IndexViewModel();
             foreach (Album album in albums)
             {
-                //var modelUser = await _repository.GetOwnerAsync(album.Id);
-                // var modelUser = _repository.GetUser(id);
                 AlbumViewModel viewModel = new AlbumViewModel(album.Id, album.DateCreated, album.Owner, album.Name);
                 List<Photo> photos = await _repository.GetPhotosAsync(album.Id);
                 if (photos.Count > 0)
@@ -40,6 +38,14 @@ namespace raupjc_projekt.Controllers
 
             }
             return View(model);
+        }
+
+        public async Task<IActionResult> ShowAlbumPhotos(Guid id)
+        {
+            Album album = await _repository.GetAlbumAsync(id);
+            AlbumViewModel model = new AlbumViewModel(album.Id, album.DateCreated, album.Owner, album.Name);
+            model.Photos = await _repository.GetPhotosAsync(model.Id);
+            return View("OtherUserAlbum", model);
         }
     }
 }

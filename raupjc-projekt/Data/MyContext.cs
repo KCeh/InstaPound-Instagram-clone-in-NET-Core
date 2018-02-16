@@ -24,6 +24,7 @@ namespace raupjc_projekt.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().HasKey(u => u.Id);
+            modelBuilder.Entity<User>().Property(u => u.Username).IsRequired();
 
             modelBuilder.Entity<Album>().HasKey(a => a.Id);
             modelBuilder.Entity<Album>().Property(a => a.Name).IsRequired();;

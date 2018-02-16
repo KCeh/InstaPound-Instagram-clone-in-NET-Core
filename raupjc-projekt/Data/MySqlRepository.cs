@@ -35,7 +35,7 @@ namespace raupjc_projekt.Models
 
         public Task<List<Album>> GetMyAlbumsAsync(string userId)
         {
-            return _context.Albums.Where(a => a.Owner.Id.Equals(userId)).ToListAsync(); //promijeniti i za ostalo
+            return _context.Albums.Where(a => a.Owner.Id.Equals(userId)).Include(a=>a.Owner).ToListAsync();
         }
 
         public async Task AddMyAlbumAsync(Album album)

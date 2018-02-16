@@ -8,7 +8,7 @@ namespace raupjc_projekt.Models
     public class User
     {
         public string Id { get; set; }
-
+        public string Username { get; set; }
         public List<Album> Albums { get; set; }
 
         public List<User> Subscribed { get; set; }
@@ -16,9 +16,10 @@ namespace raupjc_projekt.Models
         public List<Photo> FavotirePhotos { get; set; }
         public List<Photo> LikedPhotos { get; set; }
 
-        public User(string Id)
+        public User(string Id, string username)
         {
             this.Id = Id;
+            Username = username;
             Albums=new List<Album>();
             Subscribed=new List<User>();
             Subscribers=new List<User>();

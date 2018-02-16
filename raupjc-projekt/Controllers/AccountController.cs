@@ -227,7 +227,7 @@ namespace raupjc_projekt.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var myUser = new User(user.Id);
+                    var myUser = new User(user.Id, user.UserName);
                     await _repository.AddUserAsync(myUser);
 
                     _logger.LogInformation("User created a new account with password.");
@@ -323,7 +323,7 @@ namespace raupjc_projekt.Controllers
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        var myUser = new User(user.Id);
+                        var myUser = new User(user.Id,user.UserName);
                         await _repository.AddUserAsync(myUser);
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
