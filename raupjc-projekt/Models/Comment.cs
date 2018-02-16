@@ -9,15 +9,15 @@ namespace raupjc_projekt.Models
     {
         public Guid Id { get; set; }
         public DateTime DateCreated { get; set; }
-        public string CommentatorId { get; set; }
+        public User Commentator { get; set; }
         public string Text { get; set; }
         public Photo Photo { get; set; }
 
-        public Comment(string CommentatorId, string Text, Photo photo)
+        public Comment(User Commentator, string Text, Photo photo)
         {
             Id = Guid.NewGuid();
             DateCreated=DateTime.UtcNow;
-            this.CommentatorId = CommentatorId;
+            this.Commentator = Commentator;
             this.Text = Text;
             this.Photo = photo;
         }

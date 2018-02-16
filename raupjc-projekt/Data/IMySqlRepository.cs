@@ -24,20 +24,20 @@ namespace raupjc_projekt.Models
         Task FavoritePhotoAsync(string userId, Guid photoId);
         Task LikePhotoAsync(string userId, Guid photoId);//provjeri za bazu ako je ok
 
-        List<Photo> GetFavoritePhotos(string userId);
+        Task<List<Photo>> GetFavoritePhotos(string userId);
 
         List<User> GetSubscribedUsers(string userId);
         Task SubscribeToUserAsync(string subscriberId, string ownerId);
 
         List<Comment> GetComments(Guid photoId);
-        Task PostCommentAsync(Guid photoId, string commentatorId, string text);
+        Task PostCommentAsync(Guid photoId, User commentator, string text);
 
         Task<List<Photo>> GetFeaturedPhotosAsync();
         List<Photo> GetPhotosFromSubscribedUsers(string userId);
 
         Task FeaturePhotoAsync(Guid photoId);
 
-
-        
+        Task<Photo> GetPhotoAsync(Guid photoId);
+        Task<User> GetUserId(Guid photoId);
     }
 }

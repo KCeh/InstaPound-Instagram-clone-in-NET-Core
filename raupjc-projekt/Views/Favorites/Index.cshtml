@@ -1,0 +1,37 @@
+﻿@using raupjc_projekt.Models.FavoriteViewModels
+@model raupjc_projekt.Models.FavoriteViewModels.FavoriteViewModel
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+    <a class="btn btn-primary" href="/Explore/Index" role="button">Back</a>
+    <div class="w3-container">
+        <h1>Collection of your favorite photos</h1>
+    </div>
+
+
+    @foreach (PhotoFavViewModel photo in Model.Photos)
+    {
+        <div class="w3-third">
+            &nbsp;
+            <div class="w3-card">
+                <a href="@Url.Content(photo.URL)" target="_blank">
+                    <img src="@Url.Content(photo.URL)" height="210" style="width: 100%">
+                </a>
+                <div class="w3-container">
+                    <p>Like Favorite Comment</p>
+                    <a asp-controller="Favorites" asp-action="Favorite" asp-route-id="@photo.Id"><b>Favorite photo</b></a>
+                    <b>Number of likes : @photo.NumberOfLikes</b>
+                    <b>Subscribe to @photo.OriginalPoster.Username</b>
+                    <br />
+                </div>
+                &nbsp;
+            </div>
+            &nbsp;
+        </div>
+    }
+    <br><br />
+</body>
+</html>

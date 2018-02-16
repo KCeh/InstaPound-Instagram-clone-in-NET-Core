@@ -192,7 +192,7 @@ namespace raupjc_projekt.Controllers
                         await _repository.AddPhotoToAlbumAsync(model.Id, user.Id, PathDB, thumbnailDB);
                     }
                 }
-                RedirectToAction("ShowAlbumPhotos", new RouteValueDictionary(
+                return RedirectToAction("ShowAlbumPhotos", new RouteValueDictionary(
                     new { controller = "Album", action = "ShowAlbumPhotos", id = model.Id }));//popraviti
             }
             return View("AddPhoto",model);

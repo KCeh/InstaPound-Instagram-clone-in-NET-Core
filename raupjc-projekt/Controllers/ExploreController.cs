@@ -47,5 +47,7 @@ namespace raupjc_projekt.Controllers
             model.Photos = await _repository.GetPhotosAsync(model.Id);
             return View("OtherUserAlbum", model);
         }
+
+
     }
 }

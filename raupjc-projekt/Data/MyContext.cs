@@ -39,15 +39,14 @@ namespace raupjc_projekt.Models
 
             modelBuilder.Entity<Comment>().HasKey(c => c.Id);
             modelBuilder.Entity<Comment>().Property(c => c.Text).IsRequired();
-            modelBuilder.Entity<Comment>().Property(c => c.CommentatorId).IsRequired();
             modelBuilder.Entity<Comment>().Property(c => c.DateCreated).IsRequired();
 
-            //provjeri
             modelBuilder.Entity<User>().HasMany(u => u.Albums).WithRequired(a => a.Owner);
+           // modelBuilder.Entity<User>().HasMany(u => u.LikedPhotos).WithMany(p => p.UsersThatLiked);
+            modelBuilder.Entity<User>().HasMany(u => u.Subscribed).WithMany(u => u.Subscribers);
+           // modelBuilder.Entity<User>().HasMany(u => u.Comments).WithRequired(c => c.Commentator);
             modelBuilder.Entity<Album>().HasMany(u => u.Photos).WithRequired(a => a.Album);
             modelBuilder.Entity<Photo>().HasMany(u => u.Comments).WithRequired(a =>a.Photo);
-           // modelBuilder.Entity<User>().HasMany(u => u.FavotirePhotos).WithMany(a => a.UserFavorited);//potrebno?
-            modelBuilder.Entity<User>().HasMany(u => u.Subscribed).WithMany(u => u.Subscribers);
         }
     }
 }

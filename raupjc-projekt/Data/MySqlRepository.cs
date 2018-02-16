@@ -24,7 +24,7 @@ namespace raupjc_projekt.Models
 
         public User GetUser(string userId)
         {
-            return _context.Users.Find(userId);
+            return _context.Users.FirstOrDefault(u => u.Id.Equals(userId));
         }
 
         public async Task<User> GetOwnerAsync(Guid albumId)
@@ -110,8 +110,8 @@ namespace raupjc_projekt.Models
 
         public async Task FavoritePhotoAsync(string userId, Guid photoId)
         {
-            Photo photo = _context.Photos.Find(photoId);
-            User user = GetUser(userId);
+            Photo photo = await GetPhotoAsync(photoId);
+            User user = await GetUserWithAsync(userId);
             if (!user.FavotirePhotos.Contains(photo))
             {
                 user.FavotirePhotos.Add(photo);
@@ -120,7 +120,7 @@ namespace raupjc_projekt.Models
             {
                 user.FavotirePhotos.Remove(photo);
             }
-            _context.Entry(user).State= EntityState.Modified;//dobro?
+            _context.Entry(user).State= EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
@@ -143,9 +143,9 @@ namespace raupjc_projekt.Models
             await _context.SaveChangesAsync();
         }
 
-        public List<Photo> GetFavoritePhotos(string userId)
+        public async Task<List<Photo>> GetFavoritePhotos(string userId)
         {
-            User user = GetUser(userId);
+            User user = await GetUserWithAsync(userId);
             return user.FavotirePhotos;
         }
 
@@ -172,10 +172,10 @@ namespace raupjc_projekt.Models
             return photo.Comments;
         }
 
-        public async Task PostCommentAsync(Guid photoId, string commentatorId, string text)
+        public async Task PostCommentAsync(Guid photoId, User commentator, string text)
         {
             Photo photo = _context.Photos.Find(photoId);
-            Comment comment = new Comment(commentatorId, text, photo);
+            Comment comment = new Comment(commentator, text, photo);
             photo.Comments.Add(comment);
             _context.Comments.Add(comment);
             _context.Entry(photo).State = EntityState.Modified;
@@ -184,7 +184,7 @@ namespace raupjc_projekt.Models
 
         public async Task<List<Photo>> GetFeaturedPhotosAsync()
         {
-            return await _context.Photos.Where(p => p.featured).ToListAsync();
+            return await _context.Photos.Where(p => p.featured).Include(p=>p.Album).ToListAsync();
         }
 
         public List<Photo> GetPhotosFromSubscribedUsers(string userId)
@@ -202,6 +202,12 @@ namespace raupjc_projekt.Models
             return orderByDescending;
         }
 
+        private async Task<User> GetUserWithAsync(string userId)
+        {
+            return await _context.Users.Where(u => u.Id.Equals(userId)).Include(u => u.FavotirePhotos)
+                .Include(u => u.LikedPhotos).FirstOrDefaultAsync();
+        }
+
         public async Task FeaturePhotoAsync(Guid photoId)
         {
             //samo admin smije
@@ -209,6 +215,21 @@ namespace raupjc_projekt.Models
             photo.featured = true;
             _context.Entry(photo).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        public Task<Photo> GetPhotoAsync(Guid photoId)
+        {
+            return _context.Photos.Where(p => p.Id.Equals(photoId))
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetUserId(Guid photoId)
+        {
+            Photo photo = await _context.Photos.Where(p => p.Id.Equals(photoId))
+                .Include(p => p.Album).FirstOrDefaultAsync();
+            Album album = await _context.Albums.Where(a => a.Id.Equals(photo.Album.Id)).Include(a => a.Owner)
+                .FirstOrDefaultAsync();
+            return album.Owner;
         }
     }
 

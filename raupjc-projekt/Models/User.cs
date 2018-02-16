@@ -15,6 +15,7 @@ namespace raupjc_projekt.Models
         public List<User> Subscribers { get; set; }
         public List<Photo> FavotirePhotos { get; set; }
         public List<Photo> LikedPhotos { get; set; }
+        public List<Comment> Comments { get; set; }
 
         public User(string Id, string username)
         {
@@ -25,6 +26,7 @@ namespace raupjc_projekt.Models
             Subscribers=new List<User>();
             FavotirePhotos=new List<Photo>();
             LikedPhotos=new List<Photo>();
+            Comments=new List<Comment>();
         }
 
         public User()
