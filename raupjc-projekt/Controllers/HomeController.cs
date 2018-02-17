@@ -27,17 +27,30 @@ namespace raupjc_projekt.Controllers
             //provjeri ako je sve dobro preneseno, like, feature itd
             var user = await _userManager.GetUserAsync(HttpContext.User);
             IndexViewModelHome model = new IndexViewModelHome();
+            List<Photo> photosFromSubscribers = null;
             if (user != null)
             {
-                List<Photo> photosFromSubscribers = await _repository.GetPhotosFromSubscribedUsersAsync(user.Id);
+                photosFromSubscribers = await _repository.GetPhotosFromSubscribedUsersAsync(user.Id);
                 foreach (Photo photo in photosFromSubscribers)
                 {
                     User owner = await _repository.GetUserId(photo.Id);
                     model.Photos.Add(new PhotoFavViewModel(photo, owner));
                 }
             }
-           
-            //featured dodat
+
+            List<Photo> featuredPhotos = await _repository.GetFeaturedPhotosAsync();
+            foreach (Photo photo in featuredPhotos)
+            {
+                User owner = await _repository.GetUserId(photo.Id);
+                if (photosFromSubscribers == null)
+                {
+                    model.Photos.Add(new PhotoFavViewModel(photo, owner));
+                    continue;
+                }
+
+                if(photosFromSubscribers.Contains(photo)) continue;
+                model.Photos.Add(new PhotoFavViewModel(photo, owner));
+            }
             return View(model);
         }
 
