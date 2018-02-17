@@ -28,6 +28,10 @@ namespace raupjc_projekt.Controllers
             List<Photo> favorites= await _repository.GetFavoritePhotos(user.Id);
             foreach (Photo photo in favorites)
             {
+                if (photo == null)
+                {
+                    continue;
+                }
                 User owner = await _repository.GetUserId(photo.Id);
                 viewModel.Photos.Add(new PhotoFavViewModel(photo,owner));
             }
