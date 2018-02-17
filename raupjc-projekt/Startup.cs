@@ -47,6 +47,8 @@ namespace raupjc_projekt
             services.AddScoped(t => new MyContext(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
+            //todo
+            //dodati za SignalR????
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

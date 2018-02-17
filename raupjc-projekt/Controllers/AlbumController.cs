@@ -228,6 +228,13 @@ namespace raupjc_projekt.Controllers
         }
 
 
+        public async Task<IActionResult> LikePhoto(Guid id)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            await _repository.LikePhotoAsync(user.Id, id);
+            return RedirectToAction("Index"); //popraviti
+        }
+
 
         void CreateThumbnail(int ThumbnailMax, string OriginalImagePath, string ThumbnailImagePath)
         {

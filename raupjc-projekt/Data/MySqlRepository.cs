@@ -127,7 +127,7 @@ namespace raupjc_projekt.Models
         public async Task LikePhotoAsync(string userId, Guid photoId)
         {
             Photo photo = _context.Photos.Find(photoId);
-            User user = GetUser(userId);
+            User user = await GetUserWithAsync(userId);
             if (!user.LikedPhotos.Contains(photo))
             {
                 photo.NumberOfLikes++;
@@ -138,7 +138,7 @@ namespace raupjc_projekt.Models
                 photo.NumberOfLikes--;
                 user.LikedPhotos.Remove(photo);
             }
-            _context.Entry(user).State = EntityState.Modified;//dobro?
+            _context.Entry(user).State = EntityState.Modified;
             _context.Entry(photo).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
@@ -157,13 +157,19 @@ namespace raupjc_projekt.Models
 
         public async Task SubscribeToUserAsync(string subscriberId, string ownerId)
         {
-            User subscriber = GetUser(subscriberId);
-            User owner = GetUser(ownerId);
+            User subscriber = await GetUserWithSub(subscriberId);
+            User owner = await GetUserWithSub(ownerId);
             subscriber.Subscribed.Add(owner);
             owner.Subscribers.Add(subscriber);
             _context.Entry(subscriber).State = EntityState.Modified;
             _context.Entry(owner).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        private async Task<User> GetUserWithSub(string id)
+        {
+            return await _context.Users.Where(u => u.Id.Equals(id)).Include(u => u.Subscribed)
+                .Include(u => u.Subscribers).FirstOrDefaultAsync();
         }
 
         public List<Comment> GetComments(Guid photoId)

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using raupjc_projekt.Models;
 
@@ -11,8 +12,16 @@ namespace raupjc_projekt.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IMySqlRepository _repository;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public HomeController(IMySqlRepository repository, UserManager<ApplicationUser> userManager)
+        {
+            _repository = repository;
+            _userManager = userManager;
+        }
         public IActionResult Index()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
             return View();
         }
 

@@ -48,6 +48,13 @@ namespace raupjc_projekt.Controllers
             return View("OtherUserAlbum", model);
         }
 
+        public async Task<IActionResult> SubscribeToUser(string ownerId)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            await _repository.SubscribeToUserAsync(user.Id, ownerId);
+            return RedirectToAction("Index", "Home");
+        }
+
 
     }
 }

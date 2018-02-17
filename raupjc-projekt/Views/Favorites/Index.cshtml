@@ -22,9 +22,12 @@
                 </a>
                 <div class="w3-container">
                     <p>Like Favorite Comment</p>
-                    <a asp-controller="Favorites" asp-action="Favorite" asp-route-id="@photo.Id"><b>Favorite photo</b></a>
-                    <b>Number of likes : @photo.NumberOfLikes</b>
-                    <b>Subscribe to @photo.OriginalPoster.Username</b>
+                    <input type="button" title="Like" value="Like" onclick="location.href='@Url.Action("LikePhoto", "Album", new { id = photo.Id })'" />&nbsp;&nbsp;
+                    <input type="button" title="Favorite" value="Favorite" onclick="location.href='@Url.Action("Favorite", "Favorites", new { id = photo.Id })'" />&nbsp;&nbsp;
+                    <br />
+                    <b>Number of likes : @photo.NumberOfLikes</b><br/>
+                    <input type="button" title="Subscribe" value="Subscribe" onclick="location.href='@Url.Action("SubscribeToUser", "Explore", new { ownerId = photo.OriginalPoster.Id })'" />
+                    <b>to @photo.OriginalPoster.Username</b>
                     <br />
                 </div>
                 &nbsp;

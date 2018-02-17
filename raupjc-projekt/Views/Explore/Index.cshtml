@@ -20,7 +20,8 @@
         <br />
         <t>Created on: @album.DateCreated</t>
         <br />
-        <t>Subscribe to: @album.Owner.Username</t>
+        <input type="button" title="Subscribe" value="Subscribe" onclick="location.href='@Url.Action("SubscribeToUser", "Explore", new { ownerId = album.Owner.Id})'" />
+        <b>to @album.Owner.Username</b>
         <br><br />
 
     }

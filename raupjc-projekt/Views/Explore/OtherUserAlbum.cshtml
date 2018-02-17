@@ -8,7 +8,8 @@
 <a class="btn btn-primary" href="/Explore/Index" role="button">Back</a>
 <div class="w3-container">
     <h1>Album @Model.Name</h1>
-    <h2><b>Subscribe @Model.Owner.Username</b></h2>
+    <input type="button" title="Subscribe" value="Subscribe" onclick="location.href='@Url.Action("SubscribeToUser", "Explore", new { ownerId = Model.Owner.Id })'" />
+    <b>to @Model.Owner.Username</b>
 </div>
     
 
@@ -22,7 +23,9 @@
             </a>
             <div class="w3-container">
                 <p>Like Favorite Comment</p>
-                <a asp-controller="Favorites" asp-action="Favorite" asp-route-id="@photo.Id"><b>Favorite photo</b></a>
+                <input type="button" title="Like" value="Like" onclick="location.href='@Url.Action("LikePhoto", "Album", new { id = photo.Id })'" />&nbsp;&nbsp;
+                <input type="button" title="Favorite" value="Favorite" onclick="location.href='@Url.Action("Favorite", "Favorites", new { id = photo.Id })'" />&nbsp;&nbsp;
+                <br />
                 <b>Number of likes : @photo.NumberOfLikes</b>
                 <br />
             </div>
