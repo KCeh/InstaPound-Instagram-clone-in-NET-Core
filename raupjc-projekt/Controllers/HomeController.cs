@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using raupjc_projekt.Models;
+using raupjc_projekt.Models.AlbumViewModels;
+using raupjc_projekt.Models.FavoriteViewModels;
 
 namespace raupjc_projekt.Controllers
 {
@@ -14,15 +16,29 @@ namespace raupjc_projekt.Controllers
     {
         private readonly IMySqlRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
+
         public HomeController(IMySqlRepository repository, UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
             _userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            //provjeri ako je sve dobro preneseno, like, feature itd
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            return View();
+            IndexViewModelHome model = new IndexViewModelHome();
+            if (user != null)
+            {
+                List<Photo> photosFromSubscribers = await _repository.GetPhotosFromSubscribedUsersAsync(user.Id);
+                foreach (Photo photo in photosFromSubscribers)
+                {
+                    User owner = await _repository.GetUserId(photo.Id);
+                    model.Photos.Add(new PhotoFavViewModel(photo, owner));
+                }
+            }
+           
+            //featured dodat
+            return View(model);
         }
 
         public IActionResult About()

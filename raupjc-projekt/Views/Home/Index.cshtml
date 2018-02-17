@@ -1,4 +1,37 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-<h2>Your feed and featured photos</h2>
+﻿@using raupjc_projekt.Models.FavoriteViewModels
+@model raupjc_projekt.Models.IndexViewModelHome
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+    <div class="w3-container">
+        <h1>Your feed and featured photos</h1>
+    </div>
+
+
+    @foreach (PhotoFavViewModel photo in @Model.Photos)
+    {
+        <div class="w3-third">
+            &nbsp;
+            <div class="w3-card">
+                <a href="@Url.Content(photo.URL)" target="_blank">
+                    <img src="@Url.Content(photo.URL)" height="210" style="width: 100%">
+                </a>
+                <div class="w3-container">
+                    <p>Like Favorite Comment</p>
+                    <input type="button" title="Like" value="Like" onclick="location.href='@Url.Action("LikePhoto", "Album", new { id = photo.Id })'" />&nbsp;&nbsp;
+                    <input type="button" title="Favorite" value="Favorite" onclick="location.href='@Url.Action("Favorite", "Favorites", new { id = photo.Id })'" />&nbsp;&nbsp;
+                    <br />
+                    <b>Number of likes : @photo.NumberOfLikes</b>
+                    <br />
+                </div>
+                &nbsp;
+            </div>
+            &nbsp;
+        </div>
+    }
+    <br><br />
+</body>
+</html>

@@ -35,7 +35,7 @@ namespace raupjc_projekt.Models
 
         public Task<List<Album>> GetMyAlbumsAsync(string userId)
         {
-            return _context.Albums.Where(a => a.Owner.Id.Equals(userId)).Include(a=>a.Owner).ToListAsync();
+            return _context.Albums.Where(a => a.Owner.Id.Equals(userId)).Include(a=>a.Owner).Include(a=>a.Photos).ToListAsync();
         }
 
         public async Task AddMyAlbumAsync(Album album)
@@ -193,12 +193,13 @@ namespace raupjc_projekt.Models
             return await _context.Photos.Where(p => p.featured).Include(p=>p.Album).ToListAsync();
         }
 
-        public List<Photo> GetPhotosFromSubscribedUsers(string userId)
+        public async Task<List<Photo>> GetPhotosFromSubscribedUsersAsync(string userId)
         {
-            User user = GetUser(userId);
+            User user = await GetUserWithAlbum(userId);
             List<Photo> photos = new List<Photo>();
             foreach (User u in user.Subscribed)
             {
+                List < Album > albums= await GetMyAlbumsAsync(u.Id);
                 foreach (Album a in u.Albums)
                 {
                     photos.AddRange(a.Photos);
@@ -206,6 +207,12 @@ namespace raupjc_projekt.Models
             }
             List<Photo> orderByDescending = photos.OrderByDescending(p => p.DateCreated).ToList();
             return orderByDescending;
+        }
+
+        private async Task<User> GetUserWithAlbum(string userId)
+        {
+            return await _context.Users.Where(u => u.Id.Equals(userId)).Include(u=>u.Albums).
+                Include(u => u.Subscribers).FirstOrDefaultAsync();
         }
 
         private async Task<User> GetUserWithAsync(string userId)

@@ -33,7 +33,7 @@ namespace raupjc_projekt.Models
         Task PostCommentAsync(Guid photoId, User commentator, string text);
 
         Task<List<Photo>> GetFeaturedPhotosAsync();
-        List<Photo> GetPhotosFromSubscribedUsers(string userId);
+        Task<List<Photo>> GetPhotosFromSubscribedUsersAsync(string userId);
 
         Task FeaturePhotoAsync(Guid photoId);
 
