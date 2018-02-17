@@ -159,8 +159,16 @@ namespace raupjc_projekt.Models
         {
             User subscriber = await GetUserWithSub(subscriberId);
             User owner = await GetUserWithSub(ownerId);
-            subscriber.Subscribed.Add(owner);
-            owner.Subscribers.Add(subscriber);
+            if (subscriber.Subscribed.Contains(owner))
+            {
+                subscriber.Subscribed.Remove(owner);
+                owner.Subscribers.Remove(subscriber);
+            }
+            else
+            {
+                subscriber.Subscribed.Add(owner);
+                owner.Subscribers.Add(subscriber);
+            }
             _context.Entry(subscriber).State = EntityState.Modified;
             _context.Entry(owner).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -212,7 +220,7 @@ namespace raupjc_projekt.Models
         private async Task<User> GetUserWithAlbum(string userId)
         {
             return await _context.Users.Where(u => u.Id.Equals(userId)).Include(u=>u.Albums).
-                Include(u => u.Subscribers).FirstOrDefaultAsync();
+                Include(u => u.Subscribed).FirstOrDefaultAsync();
         }
 
         private async Task<User> GetUserWithAsync(string userId)
