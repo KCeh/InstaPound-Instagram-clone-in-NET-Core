@@ -11,7 +11,7 @@ using System;
 namespace raupjcprojekt.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180216185944_InitialCreate")]
+    [Migration("20180217153244_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

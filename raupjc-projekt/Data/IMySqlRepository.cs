@@ -29,7 +29,7 @@ namespace raupjc_projekt.Models
         List<User> GetSubscribedUsers(string userId);
         Task SubscribeToUserAsync(string subscriberId, string ownerId);
 
-        List<Comment> GetComments(Guid photoId);
+        Task<List<Comment>> GetCommentsAsync(Guid photoId);
         Task PostCommentAsync(Guid photoId, User commentator, string text);
 
         Task<List<Photo>> GetFeaturedPhotosAsync();
@@ -39,5 +39,7 @@ namespace raupjc_projekt.Models
 
         Task<Photo> GetPhotoAsync(Guid photoId);
         Task<User> GetUserId(Guid photoId);
+        LastPhoto GetLastCommentedPhoto();
+        void SaveLastCommented(Guid id);
     }
 }

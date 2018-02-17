@@ -23,12 +23,22 @@ namespace raupjc_projekt.Controllers
         private readonly IMySqlRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHostingEnvironment _environment;
+        private Guid _commentedPhoto;
 
         public AlbumController(IMySqlRepository repository, UserManager<ApplicationUser> userManager, IHostingEnvironment IHostingEnvironment)
         {
             _repository = repository;
             _userManager = userManager;
             _environment = IHostingEnvironment;
+            try
+            {
+                _commentedPhoto = _repository.GetLastCommentedPhoto().Id;
+            }
+            catch (Exception e)
+            {
+                
+            }
+            
         }
 
         public async Task<IActionResult> Index()
@@ -233,6 +243,36 @@ namespace raupjc_projekt.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             await _repository.LikePhotoAsync(user.Id, id);
             return RedirectToAction("Index"); //popraviti
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CommentOnPhoto(Guid id)
+        {
+            CommentsViewModel model=new CommentsViewModel(id);
+            List<Comment> comments = await _repository.GetCommentsAsync(id);
+            List<Comment> sorted = comments.OrderByDescending(c=>c.DateCreated).ToList();
+            foreach (Comment comment in comments)
+            {
+                //comment.Commentator.Username = _repository.GetUser(comment.Commentator.Id).Username;
+                model.Comments.Add(comment);
+            }
+            _repository.SaveLastCommented(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CommentOnPhoto(CommentsViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("CommentOnPhoto", model);
+            }
+            model.Photo = _commentedPhoto;
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            User myUser = _repository.GetUser(user.Id);
+          
+            await _repository.PostCommentAsync(model.Photo, myUser, model.Text);
+            return RedirectToAction("Index");
         }
 
 

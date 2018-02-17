@@ -180,15 +180,22 @@ namespace raupjc_projekt.Models
                 .Include(u => u.Subscribers).FirstOrDefaultAsync();
         }
 
-        public List<Comment> GetComments(Guid photoId)
+        public async Task<List<Comment>> GetCommentsAsync(Guid photoId)
         {
-            Photo photo = _context.Photos.Find(photoId);
-            return photo.Comments;
+            /*Photo photo = await _context.Photos.Where(p => p.Id.Equals(photoId)).Include(p => p.Comments)
+                .FirstOrDefaultAsync();
+            return photo.Comments;*/
+            return await _context.Comments.Where(c => c.Photo.Id.Equals(photoId)).Include(c => c.Photo)
+                .Include(c=>c.Commentator).ToListAsync();
         }
 
         public async Task PostCommentAsync(Guid photoId, User commentator, string text)
         {
-            Photo photo = _context.Photos.Find(photoId);
+            Photo photo = await _context.Photos.Where(p => p.Id.Equals(photoId)).Include(p => p.Comments)
+                .FirstOrDefaultAsync();
+
+            if(photo==null) return;
+                
             Comment comment = new Comment(commentator, text, photo);
             photo.Comments.Add(comment);
             _context.Comments.Add(comment);
@@ -251,6 +258,24 @@ namespace raupjc_projekt.Models
             Album album = await _context.Albums.Where(a => a.Id.Equals(photo.Album.Id)).Include(a => a.Owner)
                 .FirstOrDefaultAsync();
             return album.Owner;
+        }
+
+        public LastPhoto GetLastCommentedPhoto()
+        {
+           LastPhoto lp =  _context.LastPhoto.FirstOrDefault();
+            if (lp != null)
+            {
+                _context.LastPhoto.Remove(lp);
+                _context.SaveChanges();
+            }
+            return lp;
+        }
+
+        public void SaveLastCommented(Guid id)
+        {
+            LastPhoto lp = new LastPhoto(id);
+            _context.LastPhoto.Add(lp);
+            _context.SaveChanges();
         }
     }
 

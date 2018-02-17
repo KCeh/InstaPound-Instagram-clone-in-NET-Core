@@ -1,0 +1,30 @@
+﻿@model raupjc_projekt.Models.CommentsViewModel
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<h2>Comments</h2>
+<body>
+@foreach (Comment comment in @Model.Comments)
+{
+    <b>Comment by: @comment.Commentator.Username on @comment.DateCreated</b>
+    <br/>
+    <t>@comment.Text</t>
+    <br><br/>
+}
+
+<form asp-action="CommentOnPhoto" method="post">
+    <div class="form-group">
+        <label asp-for="Text"></label>
+        <input class="form-control" asp-for="Text" placeholder="Write your comment her" />
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+    <br/>
+
+     
+    <input class="btn btn-primary" type="submit" value="Add comment">
+    <a class="btn btn-primary" href="/Home/Index" role="button">Back</a>
+</form>
+
+
+</body>

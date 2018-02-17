@@ -13,6 +13,7 @@ namespace raupjc_projekt.Models
         public IDbSet<Album> Albums { get; set; }
         public IDbSet<Photo> Photos { get; set; }
         public IDbSet<Comment> Comments { get; set; }
+        public IDbSet<LastPhoto> LastPhoto { get; set; }
 
         public MyContext(string cnnstr) : base(cnnstr)
         {
@@ -22,6 +23,8 @@ namespace raupjc_projekt.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<LastPhoto>().HasKey(u => u.Id);
 
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().Property(u => u.Username).IsRequired();

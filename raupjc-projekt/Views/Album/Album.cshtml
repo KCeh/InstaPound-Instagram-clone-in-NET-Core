@@ -24,6 +24,7 @@
                     <p>Like Favorite Comment</p>
                     <input type="button" title="Like" value="Like" onclick="location.href='@Url.Action("LikePhoto", "Album", new { id = photo.Id })'" />&nbsp;&nbsp;
                     <input type="button" title="Favorite" value="Favorite" onclick="location.href='@Url.Action("Favorite", "Favorites", new { id = photo.Id })'" />&nbsp;&nbsp;
+                    <input type="button" title="View comments" value="View comments" onclick="location.href='@Url.Action("CommentOnPhoto", "Album", new { id = photo.Id })'" />&nbsp;&nbsp;
                     <br/>
                     <b>Number of likes : @photo.NumberOfLikes</b>
                     <br />
