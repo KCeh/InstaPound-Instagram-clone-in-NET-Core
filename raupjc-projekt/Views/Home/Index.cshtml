@@ -5,10 +5,9 @@
 <title>W3.CSS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<h2>Your feed and featured photos</h2>
 <body>
-    <div class="w3-container">
-        <h2>Your feed and featured photos</h2>
-    </div>
+       
 
 
     @foreach (PhotoFavViewModel photo in @Model.Photos)
@@ -20,13 +19,13 @@
                     <img src="@Url.Content(photo.URL)" height="210" style="width: 100%">
                 </a>
                 <div class="w3-container">
-                    <p>Like Favorite Comment</p>
-                    <input type="button" title="Like" value="Like" onclick="location.href='@Url.Action("LikePhoto", "Album", new { id = photo.Id })'" />&nbsp;&nbsp;
-                    <input type="button" title="Favorite" value="Favorite" onclick="location.href='@Url.Action("Favorite", "Favorites", new { id = photo.Id })'" />&nbsp;&nbsp;
-                    <input type="button" title="View comments" value="View comments" onclick="location.href='@Url.Action("CommentOnPhoto", "Album", new { id = photo.Id })'" />&nbsp;&nbsp;
                     <br />
+                    <a class="btn btn-primary" href='@Url.Action("LikePhoto", "Album", new {id = photo.Id})' role="button">Like</a>&nbsp;&nbsp;
+                    <a class="btn btn-primary" href='@Url.Action("Favorite", "Favorites", new {id = photo.Id})' role="button">Favorite</a>&nbsp;&nbsp;
+                    <a class="btn btn-primary" href='@Url.Action("CommentOnPhoto", "Album", new {id = photo.Id})'role="button">Comment</a>&nbsp;&nbsp;
+                    <br/>
                     <b>Number of likes : @photo.NumberOfLikes</b>
-                    <br />
+                    <br/>
                 </div>
                 &nbsp;
             </div>

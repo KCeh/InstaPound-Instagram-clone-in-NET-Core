@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
-<a class="btn btn-primary" href="/Explore/Index" role="button">Back</a>
 <div class="w3-container">
     <h1>Album @Model.Name</h1>
-    <input type="button" title="Subscribe" value="Subscribe" onclick="location.href='@Url.Action("SubscribeToUser", "Explore", new { ownerId = Model.Owner.Id })'" />
+    <a class="btn btn-primary" href='@Url.Action("SubscribeToUser", "Explore", new { ownerId = Model.Owner.Id })' role="button">Subscribe</a>
     <b>to @Model.Owner.Username</b>
+    <br/><br/>
+    <a class="btn btn-primary" href="/Explore/Index" role="button">Back</a>
 </div>
     
 
@@ -23,9 +24,9 @@
             </a>
             <div class="w3-container">
                 <p>Like Favorite Comment</p>
-                <input type="button" title="Like" value="Like" onclick="location.href='@Url.Action("LikePhoto", "Album", new { id = photo.Id })'" />&nbsp;&nbsp;
-                <input type="button" title="Favorite" value="Favorite" onclick="location.href='@Url.Action("Favorite", "Favorites", new { id = photo.Id })'" />&nbsp;&nbsp;
-                <input type="button" title="View comments" value="View comments" onclick="location.href='@Url.Action("CommentOnPhoto", "Album", new { id = photo.Id })'" />&nbsp;&nbsp;
+                <a class="btn btn-primary" href='@Url.Action("LikePhoto", "Album", new {id = photo.Id})' role="button">Like</a>&nbsp;&nbsp;
+                <a class="btn btn-primary" href='@Url.Action("Favorite", "Favorites", new {id = photo.Id})' role="button">Favorite</a>&nbsp;&nbsp;
+                <a class="btn btn-primary" href='@Url.Action("CommentOnPhoto", "Album", new {id = photo.Id})'role="button">Comment</a>&nbsp;&nbsp;
                 <br />
                 <b>Number of likes : @photo.NumberOfLikes</b>
                 <br />

@@ -4,18 +4,21 @@
 <form method="post" enctype="multipart/form-data" asp-controller="Album" asp-action="AddPhoto">
     <div class="form-group">
         <div class="col-md-10">
-            <p>Upload one or more files using this form:</p>
-            <input type="file" name="files" multiple />
+            <b>Upload one or more photo:</b>
+            <br/><br/>
+            <input  type="file" name="files" multiple />
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-10">
-            <input type="submit" value="Upload" />
+            <br/>
+            <input class="btn btn-primary" type="submit" value="Upload">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="@Url.Action("ShowAlbumPhotos","Album",@Model)"
+               class="btn btn-primary" role="button">Back</a>
         </div>
     </div>
 </form>
 
-    <a href="@Url.Action("ShowAlbumPhotos","Album",@Model)"
-       class="btn btn-primary" role="button">Back</a>
-    <input type="button" title="Back" value="Back" onclick="location.href='@Url.Action("ShowAlbumPhotos", "Album", @Model)'" />
-    }
+   
+   

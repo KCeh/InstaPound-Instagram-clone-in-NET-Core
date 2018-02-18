@@ -5,17 +5,15 @@
 }
 
 <h2>My albums</h2>
+<h5>Click on thumbnail image to open album</h5>
 
-<p>
-    <a asp-controller="Album" asp-action="Add"><b>Add new album</b></a>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</p>
+
+<a class="btn btn-primary" href='@Url.Action("Add", "Album")' role="button">Add new album</a>&nbsp;&nbsp;
+<br><br/>
 <div>
         @foreach (var album in Model.Albums)
         {
-            //todo
-            //Html.RenderPartial("~/Views/Todo/PartialView.cshtml", todoItem);
-
+           
             <a href="@Url.Action("ShowAlbumPhotos","Album",@album)">
             <img src="@Url.Content(album.ThumbnailImage)" alt="Thumbnail" height="100" width="150" />
             </a>
@@ -23,9 +21,9 @@
                 <b>@album.Name</b>
                 <br />
                 <t>Created on: @album.DateCreated</t>
-                <br />
-                <a asp-controller="Album" asp-action="Rename" asp-route-id="@album.Id"><b>Rename album</b></a>
-                <a asp-controller="Album" asp-action="Delete" asp-route-id="@album.Id"><b>Delete album</b></a>
+            <br />
+            <a class="btn btn-primary" href='@Url.Action("Rename", "Album", new {id = album.Id})' role="button">Rename album</a>
+            <a class="btn btn-primary" href='@Url.Action("Delete", "Album", new {id = album.Id})' role="button">Delete album</a>
                 <br><br />
 
                 }
