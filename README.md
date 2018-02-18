@@ -6,7 +6,7 @@ link...
 InstaPound is web image gallery (sort of Instagram clone).
 
 Features:
-User can register with mail or with Twitter accoutn.
+User can register with mail or with Twitter account.
 User can create,rename and delete albums.
 User can upload and delete images.
 User can like image, comment on image (as well as see comments) and subscribe to another user.
