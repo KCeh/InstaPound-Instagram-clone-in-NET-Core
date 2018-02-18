@@ -39,6 +39,7 @@ namespace raupjc_projekt.Models
             modelBuilder.Entity<Photo>().Property(p => p.DateCreated).IsRequired();
             modelBuilder.Entity<Photo>().Property(p => p.HasComment).IsRequired();
             modelBuilder.Entity<Photo>().Property(p => p.NumberOfLikes).IsRequired();
+            modelBuilder.Entity<Photo>().Property(p => p.Featured).IsRequired();
 
             modelBuilder.Entity<Comment>().HasKey(c => c.Id);
             modelBuilder.Entity<Comment>().Property(c => c.Text).IsRequired();

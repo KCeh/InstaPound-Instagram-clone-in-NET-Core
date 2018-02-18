@@ -1,0 +1,34 @@
+﻿@model raupjc_projekt.Models.FeatureViewModel
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+    <br />
+    <div class="w3-container">
+        <h2>Feature photo</h2>
+    </div>
+
+
+    @foreach (Photo photo in Model.Photos)
+    {
+        <div class="w3-third">
+            &nbsp;
+            <div class="w3-card">
+                <a href="@Url.Content(photo.URL)" target="_blank">
+                    <img src="@Url.Content(photo.URL)" height="210" style="width: 100%">
+                </a>
+                <div class="w3-container">
+                    <br />
+                    <a class="btn btn-primary" href='@Url.Action("FeaturePhoto", "Album", new {id = photo.Id})' role="button">Feature</a>&nbsp;&nbsp;
+                    <br />
+                </div>
+                &nbsp;
+            </div>
+            &nbsp;
+        </div>
+    }
+    <br><br />
+</body>
+</html>

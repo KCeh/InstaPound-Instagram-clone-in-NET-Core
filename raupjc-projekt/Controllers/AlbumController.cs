@@ -24,6 +24,7 @@ namespace raupjc_projekt.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHostingEnvironment _environment;
         private Guid _commentedPhoto;
+        private readonly string _admin;
 
         public AlbumController(IMySqlRepository repository, UserManager<ApplicationUser> userManager, IHostingEnvironment IHostingEnvironment)
         {
@@ -38,7 +39,8 @@ namespace raupjc_projekt.Controllers
             {
                 
             }
-            
+            _admin="admin@email.com";
+
         }
 
         public async Task<IActionResult> Index()
@@ -294,6 +296,30 @@ namespace raupjc_projekt.Controllers
           
             await _repository.PostCommentAsync(model.Photo, myUser, model.Text);
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> FeaturePhotoList()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            if (!user.UserName.Equals(_admin))
+            {
+                return View("FeaturePhotoError");
+            }
+
+            List<Photo> photos = await _repository.GetAllPhotosAsync();
+            FeatureViewModel model = new FeatureViewModel();
+            foreach (Photo photo in photos)
+            {
+                model.Photos.Add(photo);
+            }
+            return View("FeaturePhoto", model);
+
+        }
+
+        public async Task<IActionResult> FeaturePhoto(Guid id)
+        {
+            await _repository.FeaturePhotoAsync(id);
+            return RedirectToAction("Index","Home");
         }
 
 

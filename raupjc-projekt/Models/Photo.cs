@@ -15,7 +15,7 @@ namespace raupjc_projekt.Models
         //public List<User> UsersThatLiked { get; set; }
         public int NumberOfLikes { get; set; }
         public Album Album { get; set; }
-        public bool featured { get; set; }
+        public bool Featured { get; set; }
 
         public bool HasComment
         {
@@ -37,7 +37,7 @@ namespace raupjc_projekt.Models
             //UsersThatLiked=new List<User>();
             NumberOfLikes = 0;
             this.Album = album;
-            featured = false;
+            Featured = false;
             ThumbnailImage = thumbnail;
         }
 

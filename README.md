@@ -6,7 +6,7 @@ Link and description
 Features
 
 Admin authorization(for testing):
-admin@email.com, p@$$w0rd
+admin@email.com, P@ssw0rd
 
 Stuff that needs improvment:
 Frontend (general look of web app)

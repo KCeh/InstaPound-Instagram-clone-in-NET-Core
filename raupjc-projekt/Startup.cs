@@ -67,8 +67,8 @@ namespace raupjc_projekt
 
             app.UseAuthentication();
 
-           // CreateRoles(spv);//await?
-            //todo popravi
+           // await CreateRoles(spv);//await?
+
 
             app.UseMvc(routes =>
             {

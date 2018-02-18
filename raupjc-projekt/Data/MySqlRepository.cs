@@ -205,7 +205,7 @@ namespace raupjc_projekt.Models
 
         public async Task<List<Photo>> GetFeaturedPhotosAsync()
         {
-            return await _context.Photos.Where(p => p.featured).Include(p=>p.Album).ToListAsync();
+            return await _context.Photos.Where(p => p.Featured).ToListAsync();
         }
 
         public async Task<List<Photo>> GetPhotosFromSubscribedUsersAsync(string userId)
@@ -239,8 +239,8 @@ namespace raupjc_projekt.Models
         public async Task FeaturePhotoAsync(Guid photoId)
         {
             //samo admin smije
-            Photo photo = _context.Photos.Find(photoId);
-            photo.featured = true;
+            Photo photo = await _context.Photos.Where(p=>p.Id.Equals(photoId)).FirstOrDefaultAsync();
+            photo.Featured = true;
             _context.Entry(photo).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
@@ -249,6 +249,11 @@ namespace raupjc_projekt.Models
         {
             return _context.Photos.Where(p => p.Id.Equals(photoId))
                 .FirstOrDefaultAsync();
+        }
+
+        public Task<List<Photo>> GetAllPhotosAsync()
+        {
+            return _context.Photos.ToListAsync();
         }
 
         public async Task<User> GetUserId(Guid photoId)
