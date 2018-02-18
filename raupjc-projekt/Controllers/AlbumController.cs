@@ -91,24 +91,36 @@ namespace raupjc_projekt.Controllers
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             User myUser = _repository.GetUser(user.Id);
-            //todo brisenje
-            /*
+            
+            
             List<Photo> photosToDelete =await _repository.GetPhotosAsync(id);
             List<string> paths = new List<string>();
-            foreach (Photo photo in photosToDelete)
+
+            foreach (Photo photoToDelete in photosToDelete)
             {
-                Path.Combine(_environment.WebRootPath, "uploads")
-                paths.Add(photo.ThumbnailImage);
-                paths.Add(photo.URL);
+                string[] parts = photoToDelete.URL.Split('/');
+
+                string filename = Path.Combine(_environment.WebRootPath, "uploads") + $@"\{parts[2]}"; ;
+                paths.Add(filename);
+                filename = Path.Combine(_environment.WebRootPath, "uploads") + $@"\thumbs" + $@"\{parts[2]}";
+                paths.Add(filename);
             }
 
-            foreach (String path in paths)
+            try
             {
-                if (System.IO.File.Exists(path))
+                foreach (String path in paths)
                 {
-                    System.IO.File.Delete(path);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
                 }
-            }*/
+            }
+            catch (IOException ex)
+            {
+                return View("AlbumError");
+            }
+            
 
             await _repository.RemoveMyAlbumAsync(myUser, id);
             return RedirectToAction("Index");
@@ -213,25 +225,34 @@ namespace raupjc_projekt.Controllers
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             User myUser = _repository.GetUser(user.Id);
-            //todo brisenje
-            /*
-            List<Photo> photosToDelete =await _repository.GetPhotosAsync(id);
+           
+            //delete from server
+            Photo photoToDelete = await _repository.GetPhotoAsync(id);
             List<string> paths = new List<string>();
-            foreach (Photo photo in photosToDelete)
-            {
-                Path.Combine(_environment.WebRootPath, "uploads")
-                paths.Add(photo.ThumbnailImage);
-                paths.Add(photo.URL);
-            }
 
-            foreach (String path in paths)
+            string[] parts = photoToDelete.URL.Split('/');
+
+            string filename = Path.Combine(_environment.WebRootPath, "uploads")+$@"\{parts[2]}"; ;
+            paths.Add(filename);
+            filename = Path.Combine(_environment.WebRootPath, "uploads") + $@"\thumbs" + $@"\{parts[2]}"; 
+            paths.Add(filename);
+
+            try
             {
-                if (System.IO.File.Exists(path))
+                foreach (String path in paths)
                 {
-                    System.IO.File.Delete(path);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
                 }
-            }*/
-
+            }
+            catch (IOException ex)
+            {
+                return View("AlbumError");
+            }
+            
+            //save change to DB
             await _repository.RemovePhotoFromAlbumAsync(albumId, id, user.Id);
             return RedirectToAction("ShowAlbumPhotos", new RouteValueDictionary(
                 new { controller = "Album", action = "ShowAlbumPhotos", id = albumId }));
