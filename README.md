@@ -1,9 +1,11 @@
 # raupjc-projekt
 Web application project for C# course
 
-Link and description:
-http://instapound.azurewebsites.net
 InstaPound is web image gallery (sort of Instagram clone).
+
+Link:
+http://instapound.azurewebsites.net
+
 
 Features:
 User can register with mail or with Twitter account.
