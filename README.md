@@ -4,8 +4,7 @@ Web application project for C# course
 InstaPound is web image gallery (sort of Instagram clone).
 
 Link:
-http://instapound.azurewebsites.net
-
+web site is not available any more (but you can check source code)
 
 Features:
 User can register with mail or with Twitter account.
@@ -15,11 +14,7 @@ User can like image, comment on image (as well as see comments) and subscribe to
 User can browse other users images and albums.
 Admin can feature photo (photo will be showm on home page).
 
-Admin authorization(for testing):
-admin@email.com, P@ssw0rd
-
 Stuff that needs improvment:
 Frontend (general look of web app)
-Partial views (replacing specific HTML renders with partial views)
-Like, favorite and such buttons shouldn't redirect to some view (needs JS, backend implemetation is good)
-
+Partial views (replacing some specific HTML renders with partial views)
+Like, favorite and such buttons could be better implemented
