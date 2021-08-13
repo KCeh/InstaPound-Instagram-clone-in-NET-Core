@@ -1,5 +1,5 @@
-# raupjc-projekt
-Web application project for C# course  
+# InstaPound Instagram clone in .NET Core
+Web application project for optional C# course organised by Axilis
   
 InstaPound is web image gallery (sort of Instagram clone).  
   
